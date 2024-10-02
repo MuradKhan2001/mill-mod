@@ -1,0 +1,519 @@
+.navbar-wrapper {
+  width: 100%;
+  height: 90px;
+  padding-left: 8%;
+  padding-right: 8%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  box-shadow: 0px 2px 6px 0px #00000014;
+  position: sticky;
+  top: 0px;
+  z-index: 200;
+
+  .alert-enter {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  .alert-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 300ms, transform 300ms;
+  }
+
+  .alert-exit {
+    opacity: 1;
+  }
+
+  .alert-exit-active {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 300ms, transform 300ms;
+  }
+
+  .nav-show {
+    display: none;
+  }
+
+  .nav-list {
+    width: 60%;
+    height: 100%;
+
+    .sloy-mobile {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+
+      .nav-item-hide {
+        display: none;
+      }
+
+      .nav-item {
+        height: 100%;
+        font-family: "Be Vietnam Pro", sans-serif;
+        position: relative;
+        cursor: pointer;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        color: #787F95;
+        transition: .4s;
+        margin-right: 30px;
+        padding-bottom: 10px;
+
+        &:hover {
+          color: #002B48;
+          .submenu {
+            display: block;
+          }
+        }
+
+        .submenu {
+          width: 100%;
+          display: none;
+          z-index: 100;
+          left: 0;
+          bottom: -125px;
+          position: absolute;
+          background-color: white;
+          border-radius: 6px;
+          overflow: hidden;
+          box-shadow: 0px 30px 50px 0px #5A77951F;
+          border: 1px solid #EEF0F4;
+
+          .name {
+            padding: 15px 20px 15px 10px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #787F95;
+            transition: 0.3s;
+            z-index: 100;
+            cursor: pointer;
+
+            &:hover {
+              background: #1320260D;
+              color: #002B48;
+            }
+          }
+        }
+
+        .submenu-contact {
+          display: none;
+          z-index: 100;
+          left: 0;
+          bottom: -70px;
+          position: absolute;
+          width: max-content;
+          background-color: white;
+          border-radius: 2px;
+
+          .name {
+            padding: 7px 20px 7px 10px;
+            font-size: 16px;
+            font-weight: 500;
+            color: black;
+            transition: 0.3s;
+            z-index: 100;
+            cursor: pointer;
+
+            &:hover {
+              background-color: #e0e0e0;
+            }
+          }
+        }
+      }
+
+      .nav-item-sub-desctop{
+        height: 100%;
+        font-family: "Be Vietnam Pro", sans-serif;
+        position: relative;
+        cursor: pointer;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        color: #787F95;
+        transition: .4s;
+        margin-right: 30px;
+        padding-bottom: 10px;
+
+        &:hover {
+          color: #002B48;
+          .submenu {
+            display: block;
+          }
+        }
+
+        .submenu {
+          width: 100%;
+          display: none;
+          z-index: 100;
+          left: 0;
+          bottom: -125px;
+          position: absolute;
+          background-color: white;
+          border-radius: 6px;
+          overflow: hidden;
+          box-shadow: 0px 30px 50px 0px #5A77951F;
+          border: 1px solid #EEF0F4;
+
+          .name {
+            padding: 15px 20px 15px 10px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #787F95;
+            transition: 0.3s;
+            z-index: 100;
+            cursor: pointer;
+
+            &:hover {
+              background: #1320260D;
+              color: #002B48;
+            }
+          }
+        }
+
+        .submenu-contact {
+          display: none;
+          z-index: 100;
+          left: 0;
+          bottom: -70px;
+          position: absolute;
+          width: max-content;
+          background-color: white;
+          border-radius: 2px;
+
+          .name {
+            padding: 7px 20px 7px 10px;
+            font-size: 16px;
+            font-weight: 500;
+            color: black;
+            transition: 0.3s;
+            z-index: 100;
+            cursor: pointer;
+
+            &:hover {
+              background-color: #e0e0e0;
+            }
+          }
+        }
+      }
+
+      .nav-item-sub-mobile{
+        display: none;
+      }
+
+      .submenu-mobile{
+        display: none;
+      }
+
+      .driver_btn {
+        display: none;
+      }
+
+      .nav-title-mobile {
+        display: none;
+      }
+    }
+  }
+
+  .logo-desctop{
+    img{
+      width: 180px;
+    }
+  }
+
+  .mobile-left-side {
+    display: flex;
+
+    .logo {
+      display: none;
+    }
+
+    .driver_btn {
+      background-color: rgba(244, 168, 80, 1);
+      cursor: pointer;
+      border: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: rgba(35, 33, 42, 1);
+      height: 65px;
+      width: 215px;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 21.6px;
+      font-family: "Krub", sans-serif;
+      transition: 0.3s linear;
+
+      &:hover {
+        background-color: rgb(205, 140, 68);
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      img {
+        margin-right: 15px;
+      }
+    }
+
+    .language {
+      margin-right: 40px;
+      height: 100%;
+
+      .dropdown {
+        position: relative;
+        height: 100%;
+
+        .dropdown-header {
+          font-weight: bold;
+          color: #002B48;
+          cursor: pointer;
+        }
+
+        .dropdown-menu {
+          box-shadow: 0px 2px 10px 0px #0000001A;
+          z-index: 90;
+          background-color: white;
+          border: 1px solid #EEF0F4;
+          padding: 6px 25px 6px 25px;
+          position: absolute;
+          bottom: -100px;
+          left: -25px;
+          width: auto;
+          height: auto;
+          border-radius: 5px;
+
+          .menu-item {
+            width: 100%;
+            color: #002B48;
+            cursor: pointer;
+            margin-top: 6px;
+            border-bottom: 2px solid transparent;
+            transition: 0.3s;
+
+            &:hover {
+              border-bottom: 2px solid #002B48;
+            }
+          }
+        }
+      }
+    }
+
+    .icons-social-media {
+      margin-right: 25px;
+      display: flex;
+      align-items: center;
+
+      a {
+        text-decoration: none;
+      }
+
+      img {
+        width: 20px;
+        margin-right: 15px;
+        transition: 0.2s;
+
+        &:hover {
+          transform: scale(1.15);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-wrapper {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: white;
+    position: fixed;
+
+    .logo-desctop{
+      display: none;
+    }
+
+    .nav-list {
+      margin-top: 90px;
+      z-index: 120;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: calc(100vh - 90px);
+      transition: .4s;
+      border-radius: 5px;
+      background-color: transparent;
+      display: flex;
+      justify-content: flex-end;
+
+      .sloy-mobile {
+        width: 100%;
+        height: 100%;
+        background-color: #232931;
+        padding-top: 40px;
+        display: block;
+
+        .nav-item-hide {
+          margin-top: 30px;
+          padding-right: 30px;
+          display: flex;
+          justify-content: flex-end;
+
+          img {
+            width: 30px;
+          }
+        }
+
+        .nav-item-sub-desctop{
+          display: none;
+        }
+
+        .nav-item {
+          font-weight: 600;
+          margin-top: 32px;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          font-size: 20px;
+          height: max-content;
+          color: white;
+
+          &:hover {
+            color: white;
+          }
+        }
+
+        .nav-item-sub-mobile{
+          padding-left: 25px;
+          margin-top: 32px;
+          font-family: "Be Vietnam Pro", sans-serif;
+          font-size: 20px;
+          height: max-content;
+          color: white;
+          line-height: 21px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 600;
+          img{
+            width: 25px;
+            margin-left: 10px;
+            transition: 0.3s;
+          }
+          .down-rotate{
+            transform: rotate(180deg);
+          }
+        }
+
+        .submenu-mobile {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          border-radius: 2px;
+          justify-content: center;
+          align-items: center;
+
+          .name {
+            line-height: 20.24px;
+            margin-top: 20px;
+            font-family: "Be Vietnam Pro", sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            color: white;
+            transition: 0.3s;
+            z-index: 100;
+            cursor: pointer;
+
+            &:hover {
+              background-color: #e0e0e0;
+            }
+          }
+        }
+
+        .nav-title-mobile {
+          display: block;
+          color:rebeccapurple;
+          font-weight: 700;
+          font-size: 22px;
+          margin-top: 25px;
+        }
+
+        .driver_btn {
+          margin-left: 20px;
+          margin-top: 20px;
+          background-color: rgba(244, 168, 80, 1);
+          cursor: pointer;
+          border: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: rgba(35, 33, 42, 1);
+          height: 65px;
+          width: 215px;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 21.6px;
+          font-family: "Krub", sans-serif;
+          transition: 0.3s linear;
+
+          &:hover {
+            background-color: rgb(205, 140, 68);
+          }
+
+          &:focus {
+            outline: none;
+          }
+
+          img {
+            margin-right: 15px;
+          }
+        }
+      }
+    }
+
+    .hide {
+      left: -120%;
+    }
+
+    .nav-show {
+      display: flex;
+
+      img {
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    .mobile-left-side {
+      width: 100%;
+      z-index: 200;
+      justify-content: space-between;
+      align-items: center;
+      background-color: white;
+      .logo {
+        display: block;
+
+        img {
+          width: 138px;
+        }
+      }
+      .nav-show{
+        img{
+          width: 35px;
+          height: 35px;
+        }
+
+      }
+    }
+  }
+}
