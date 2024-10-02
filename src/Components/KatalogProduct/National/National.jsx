@@ -7,14 +7,46 @@ import ReactPaginate from "react-paginate";
 
 import {LazyLoadImage} from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
-
-
-
+import {useNavigate} from "react-router-dom";
 
 
 const National = () => {
+    const navigate = useNavigate();
     const nodeRef = useRef(null);
     const [products, setProducts] = useState([
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
+        {img: "./images/product.png"},
         {img: "./images/product.png"}
     ]);
     const [modalContent, setModalContent] = useState({
@@ -22,7 +54,7 @@ const National = () => {
         status: ""
     });
 
-    const worksPage = 3;
+    const worksPage = 16;
     const [pageNumber, setPageNumber] = useState(0);
     const pagesVisited = pageNumber * worksPage;
     const productList = products.slice(pagesVisited, pagesVisited + worksPage).map((item, index) => {
@@ -34,6 +66,8 @@ const National = () => {
                 src={item.img}/>
         </div>
     });
+
+
 
     const pageCount = Math.ceil(products.length / worksPage);
 
@@ -111,7 +145,12 @@ const National = () => {
                     </div>
 
                     <div className="pagination-warapper">
-                        <div className="button-register">
+                        <div onClick={() => {
+                            setTimeout(() => {
+                                window.scrollTo(0, 0)
+                            }, 200)
+                            navigate("/contact")
+                        }} className="button-register">
                             Biz bilan bog'lanish
                         </div>
 
@@ -119,6 +158,7 @@ const National = () => {
                             {
                                 products.length > 0 ?
                                     <ReactPaginate
+                                        breakLabel="..."
                                         previousLabel={<img src="./images/prev.png" alt=""/>}
                                         nextLabel={<img src="./images/next.png" alt=""/>}
                                         pageCount={pageCount}
