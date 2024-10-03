@@ -54,7 +54,7 @@ const National = () => {
         status: ""
     });
 
-    const worksPage = 16;
+    const worksPage = 3;
     const [pageNumber, setPageNumber] = useState(0);
     const pagesVisited = pageNumber * worksPage;
     const productList = products.slice(pagesVisited, pagesVisited + worksPage).map((item, index) => {
