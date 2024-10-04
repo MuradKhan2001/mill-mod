@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import "./style-about-product.scss"
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
+import Aos from "aos";
 
 const AboutProduct = () => {
     const [products, setProducts] = React.useState([
@@ -18,6 +19,9 @@ const AboutProduct = () => {
     ]);
 
 
+    useEffect(() => {
+        Aos.init({duration: 1000});
+    }, [])
     return (
         <div className="about-product-wrapper">
             <Navbar/>
@@ -29,7 +33,7 @@ const AboutProduct = () => {
 
                 {
                     products.map((item, index) => {
-                        return <div className="content">
+                        return <div data-aos="flip-up" className="content">
                             <div className="left-side">
                                 <img src={item.product} alt=""/>
                             </div>

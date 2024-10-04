@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import "./style-home.scss"
 import Navbar from "../Navbar/Navbar";
 import Slider from "react-slick";
@@ -8,9 +8,10 @@ import CountUp from "react-countup";
 import ScrollTrigger from "react-scroll-trigger";
 import LeadForm from "../ContactLead/LeadForm";
 import Footer from "../Footer/Footer";
-// import Aos from "aos";
+import Aos from "aos";
 
 const Home = () => {
+    const ref = useRef(null);
     const [statistics, setStatistic] = useState({
         clients: 2001,
         orders: 300,
@@ -130,7 +131,7 @@ const Home = () => {
     };
 
     useEffect(() => {
-        // Aos.init({duration: 1000});
+        Aos.init({duration: 1000});
     }, [])
 
     return (
@@ -147,15 +148,20 @@ const Home = () => {
                 </Slider>
                 <div className="sloy">
                     <div className="content-home">
-                        <div className="top-text">
+                        <div data-aos="zoom-out-right" className="top-text">
                             <Textra effect='scale' data={[t("national"), t("modern"), t("promo")]}/>
                         </div>
 
-                        <div className="body-text">
+                        <div data-aos="zoom-in"
+                             data-aos-easing="ease-in-back"
+                             data-aos-offset="0" className="body-text">
                             {t("mainTextHome")}
                         </div>
 
-                        <div className="home-button">
+                        <div data-aos="fade-up"
+                             data-aos-anchor-placement="bottom-bottom" onClick={() => {
+                            ref.current?.scrollIntoView({behavior: "smooth"});
+                        }} className="home-button">
                             {t("buttonRegister")}
                         </div>
                     </div>
@@ -164,18 +170,22 @@ const Home = () => {
 
             <div className="home-body-wrapper">
                 <div className="about-us">
-                    <div className="main-title">{t("aboutUs")}</div>
-                    <div className="title">
+                    <div data-aos="zoom-in-down" className="main-title">{t("aboutUs")}</div>
+                    <div data-aos="zoom-in"
+                         data-aos-easing="ease-in-back"
+                         data-aos-offset="0" className="title">
                         Lorem ipsum dolor sit amet consectetur. Sit urna tortor diam leo. Neque sem
                     </div>
-                    <div className="des">
+                    <div data-aos="fade-up"
+                         data-aos-duration="2000" className="des">
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
                         the
                         industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
                         type
                         and scrambled it to make a type specimen book.
                     </div>
-                    <div className="slider-about-us">
+                    <div data-aos="fade-up"
+                         data-aos-anchor-placement="top-center" className="slider-about-us">
                         <Slider {...settingsAboutUsSlider}>
                             {homePhoto ? homePhoto.map((item, index) => {
                                 return <div key={index}>
@@ -187,11 +197,12 @@ const Home = () => {
                     </div>
                 </div>
                 <div className="directions">
-                    <div className="title">
+                    <div data-aos="zoom-out-right" className="title">
                         {t("directions")}
                     </div>
+
                     <div className="bottom-content">
-                        <div className="left-side">
+                        <div data-aos="flip-right" className="left-side">
                             <img className="bg-direction" src="./images/direction3.png" alt=""/>
                             <div className="blur-direction">
                                 <div className="sloy-direction">
@@ -215,8 +226,7 @@ const Home = () => {
                             </div>
                         </div>
                         <div className="right-side">
-
-                            <div className="top-direction">
+                            <div data-aos="flip-up" className="top-direction">
                                 <img className="bg-direction" src="./images/direction2.png" alt=""/>
                                 <div className="blur-direction">
                                     <div className="sloy-direction">
@@ -240,7 +250,7 @@ const Home = () => {
                                 </div>
                             </div>
 
-                            <div className="bottom-direction">
+                            <div data-aos="flip-up" className="bottom-direction">
                                 <img className="bg-direction" src="./images/direction1.png" alt=""/>
                                 <div className="blur-direction">
                                     <div className="sloy-direction">
@@ -263,7 +273,6 @@ const Home = () => {
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -316,14 +325,16 @@ const Home = () => {
 
             <div className="home-body-wrapper">
                 <div className="top-products">
-                    <div className="main-title">{t("topProducts")}</div>
-                    <div className="title">
+                    <div data-aos="zoom-in-down" className="main-title">{t("topProducts")}</div>
+                    <div data-aos="zoom-in"
+                         data-aos-easing="ease-in-back"
+                         data-aos-offset="0" className="title">
                         {t("topProductsDees")}
                     </div>
                     <div className="contents-products">
                         <Slider {...settingsProductsSlider}>
                             {topProducts ? topProducts.map((item, index) => {
-                                return <div key={index} className="slider-box">
+                                return <div data-aos="flip-left" key={index} className="slider-box">
                                     <div className="img-box">
                                         <img src={item.img} alt=""/>
                                     </div>
@@ -344,7 +355,8 @@ const Home = () => {
                     </div>
                 </div>
 
-                <div className="form-lead">
+                <div data-aos="fade-up"
+                     data-aos-duration="2000" ref={ref} className="form-lead">
                     <div className="left-side">
                         <LeadForm/>
                     </div>

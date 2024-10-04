@@ -4,6 +4,7 @@ import "./global.scss"
 import {BrowserRouter as Router} from "react-router-dom";
 import Loader from "./Components/Loader/Loader";
 import i18next from "i18next";
+import "aos/dist/aos.css";
 import {initReactI18next} from "react-i18next";
 import uz from "./languages/uz/uz.json";
 import ru from "./languages/ru/ru.json";

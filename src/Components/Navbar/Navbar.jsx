@@ -126,7 +126,7 @@ const Navbar = () => {
                             setTimeout(() => {
                                 window.scrollTo(0, 0)
                             }, 200)
-                            navigate("/auto-dealerships")
+                            navigate("/national")
                         }} className="name">
                             {t("national")}
                         </div>
