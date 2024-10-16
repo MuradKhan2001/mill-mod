@@ -1,49 +1,69 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import "./style-about-product.scss"
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import Aos from "aos";
+import axios from "axios";
+import {MyContext} from "../App/App";
+import i18next from "i18next";
+import DOMPurify from 'dompurify';
+import {useTranslation} from "react-i18next";
+import ReactPlayer from 'react-player/youtube'
 
 const AboutProduct = () => {
-    const [products, setProducts] = React.useState([
-        {
-            product: "./images/product.png",
-            img: "./images/banner.png",
-            video: null,
-        },
-        {
-            product: "./images/product2.png",
-            img: null,
-            video: "./images/home4.mp4",
-        },
-    ]);
+    const {t} = useTranslation();
+    let value = useContext(MyContext);
+    const [products, setProducts] = React.useState([]);
+    const [banner, setBanner] = React.useState([]);
 
 
     useEffect(() => {
+        axios.get(`${value.url}banner/?type=about_product`).then((response) => {
+            setBanner(response.data[0])
+        });
+
+        axios.get(`${value.url}about-product/`).then((response) => {
+            setProducts(response.data)
+        });
+
         Aos.init({duration: 1000});
     }, [])
+
     return (
         <div className="about-product-wrapper">
             <Navbar/>
             <div className="banner-menu">
-                <img src="./images/banner.png" alt=""/>
+                {banner && <img src={banner.iamge} alt=""/>}
+
             </div>
 
             <div className="contents-products">
-
                 {
                     products.map((item, index) => {
-                        return <div data-aos="flip-up" className="content">
-                            <div className="left-side">
-                                <img src={item.product} alt=""/>
+                        return <div key={index} data-aos="flip-up" className="content">
+                            <div className="title">
+                                {item.translations && item.translations[i18next.language].name}
                             </div>
-                            <div className="right-side">
-                                {item.img && <img src={item.img} alt=""/>}
-                                {item.video && <video autoPlay loop muted src={item.video}></video>}
+                            <div className="bottom-side">
+                                <div className="left-side">
+                                    <img src={item.photo} alt=""/>
+                                </div>
+                                <div className="right-side">
+                                    {item.production_video ?
+                                        <ReactPlayer
+                                            width='100%'
+                                            height='100%'
+                                            url={item.production_video}/> : item.photo ?
+                                            <img src={item.photo} alt=""/> : <div className="text-box">
+                                                <div
+                                                    dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(item.translations[i18next.language].description)}}/>
+                                            </div>}
+                                </div>
                             </div>
                         </div>
                     })
                 }
+
             </div>
 
             <Footer/>

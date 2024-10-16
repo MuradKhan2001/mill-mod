@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import "./direction-style.scss"
 import Navbar from "../../Navbar/Navbar";
 import Footer from "../../Footer/Footer";
@@ -8,43 +8,33 @@ import ReactPaginate from "react-paginate";
 import {LazyLoadImage} from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
+import {MyContext} from "../../App/App";
+import i18next from "i18next";
+import {useTranslation} from "react-i18next";
 
 
 const National = () => {
+    let value = useContext(MyContext);
+    const {t} = useTranslation();
+    const [category, setCategory] = useState([]);
+    const [productType, setProductType] = useState([]);
+    const [banner, setBanner] = useState([]);
     const ref = useRef(null);
     const navigate = useNavigate();
     const nodeRef = useRef(null);
-    const [products, setProducts] = useState([{img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}, {img: "./images/product.png"}]);
+    const [products, setProducts] = useState([]);
 
     const [stateActive, setStateActive] = useState(null)
     const [selectRegion, setSelectRegion] = useState(null)
-    const [regionsList, setRegionsList] = useState([
-        {
-            img: "./images/region.png",
-            name: "English"
-        },
-        {
-            img: "./images/arabic.png",
-            name: "Arabic"
-        },
-    ])
-
     const [productActive, setProductActive] = useState(null)
     const [selectProduct, setSelectProduct] = useState(null)
-    const [categoryList, setCategoryList] = useState([
-        {
-            img: "./images/test-product2.png",
-            name: "Bags"
-        },
-        {
-            img: "./images/test-product1.png",
-            name: "T-shirts"
-        },
-    ])
-
+    const [productSize, setProductSize] = useState([])
     const [modalContent, setModalContent] = useState({
-        show: false, status: ""
+        show: !sessionStorage.getItem("region") && true,
+        status: "states"
     });
+
 
     const worksPage = 16;
     const [pageNumber, setPageNumber] = useState(0);
@@ -52,10 +42,10 @@ const National = () => {
     const productList = products.slice(pagesVisited, pagesVisited + worksPage).map((item, index) => {
         return <div key={index} className="product">
             <LazyLoadImage
-                alt={item.img}
+                alt={item.photo}
                 effect="blur"
                 wrapperProps={{style: {transitionDelay: "0.7s"}}}
-                src={item.img}/>
+                src={item.photo}/>
         </div>
     });
 
@@ -69,6 +59,54 @@ const National = () => {
             ref.current?.scrollIntoView({behavior: "smooth"});
         }, 500);
     };
+
+    useEffect(() => {
+        axios.get(`${value.url}banner/?type=category&page=${localStorage.getItem("type_catalog")}`).then((response) => {
+            setBanner(response.data[0])
+        });
+
+        axios.get(`${value.url}country/`).then((response) => {
+            setCategory(response.data)
+
+            if (sessionStorage.getItem("region")) {
+                axios.get(`${value.url}product/?country=${response.data[sessionStorage.getItem("region")].id}&category=${localStorage.getItem("type_catalog")}/`).then((response) => {
+                    setProducts(response.data)
+                    console.log(response.data)
+                });
+            }
+        });
+
+        axios.get(`${value.url}product-type/`).then((response) => {
+            setProductType(response.data)
+        });
+
+    }, [])
+
+    const selectCategory = (selected) => {
+        if (selected) {
+            setStateActive(selected)
+            setModalContent({show: false})
+
+            axios.get(`${value.url}product/?country=${selected.id}&category=${localStorage.getItem("type_catalog")}/`).then((response) => {
+                setProducts(response.data)
+            });
+        }
+    }
+
+    const selectProductType = (selected) => {
+        if (selected) {
+            setProductActive(selected)
+            setModalContent({show: false})
+
+            axios.get(`${value.url}product/?product_type=${selected.id}&country=${category[sessionStorage.getItem("region")].id}&category=${localStorage.getItem("type_catalog")}/`).then((response) => {
+                setProducts(response.data)
+            });
+
+            axios.get(`${value.url}product-size/?product_type=${selected.id}`).then((response) => {
+                setProductSize(response.data)
+            });
+        }
+    }
 
     return (<div className="direction-wrapper">
         <CSSTransition
@@ -92,35 +130,39 @@ const National = () => {
                                 alt=""
                             />
                         </div>
-                        <div className="title">Davlatlar</div>
+                        <div className="title">{t("region")}</div>
                         <div className="des">
-                            Iltimos davlatni tanglang!
+                            {t("des_region")}
                         </div>
                         <div className="region-cards">
-                            {regionsList.map((item, index) => {
-                                return <div onClick={() => setSelectRegion({img: item.img, name: item.name})}
-                                            className={`region ${selectRegion && selectRegion.img == item.img && "active"}`}>
+                            {category && category.map((item, index) => {
+                                return <div key={index} onClick={() => {
+                                    setSelectRegion({
+                                        icon: item.icon,
+                                        name: item.translations[i18next.language].name,
+                                        index: index,
+                                        id: item.id
+                                    })
+                                    sessionStorage.setItem("region", index)
+                                }}
+                                            className={`region ${sessionStorage.getItem("region") == index && "active"}`}>
                                     <div className="sloy">
-                                        {selectRegion && selectRegion.img == item.img &&
+                                        {sessionStorage.getItem("region") == index &&
                                             <div className="tick"><img src="./images/tick.png" alt=""/></div>}
                                         <div className="icon">
-                                            <img src={item.img} alt=""/>
-
+                                            <img src={item.icon} alt=""/>
                                         </div>
                                         <div className="name">
-                                            {item.name}
+                                            {item.translations[i18next.language].name}
                                         </div>
                                     </div>
                                 </div>
                             })}
                         </div>
-                        <div onClick={() => {
-                            if (selectRegion) {
-                                setStateActive(selectRegion)
-                                setModalContent({show: false})
-                            }
-                        }} className={`success-btn ${selectRegion && "active-btn"}`}>
-                            Tasdiqlash
+
+                        <div onClick={() => selectCategory(selectRegion)}
+                             className={`success-btn ${sessionStorage.getItem("region") && "active-btn"}`}>
+                            {t("success")}
                         </div>
                     </div>)}
 
@@ -129,42 +171,47 @@ const National = () => {
                             <img
                                 onClick={() => {
                                     setModalContent({show: false})
-                                    setSelectProduct(null)
                                 }}
                                 src="./images/close.png"
                                 alt=""
                             />
                         </div>
-                        <div className="title">Maxsulotlar</div>
+                        <div className="title">{t("product")}</div>
                         <div className="des">
-                            Iltimos maxsulotlarni tanglang!
+                            {t("des_product")}
                         </div>
                         <div className="region-cards">
 
-                            {categoryList.map((item, index) => {
-                                return <div key={index}
-                                            onClick={() => setSelectProduct({img: item.img, name: item.name})}
-                                            className={`region ${selectProduct && selectProduct.img == item.img && "active"}`}>
+                            {productType && productType.map((item, index) => {
+                                return <div key={index} onClick={() =>
+                                    setSelectProduct({
+                                        icon: item.icon,
+                                        name: item.translations[i18next.language].name,
+                                        index: index,
+                                        id: item.id
+                                    })}
+                                            className={`region ${selectProduct && selectProduct.icon == item.icon && "active"}`}>
                                     <div className="sloy">
-                                        {selectProduct && selectProduct.img == item.img &&
+
+                                        {selectProduct && selectProduct.icon == item.icon &&
                                             <div className="tick"><img src="./images/tick.png" alt=""/></div>}
+
                                         <div className="icon">
-                                            <img src={item.img} alt=""/>
+                                            <img src={item.icon} alt=""/>
                                         </div>
                                         <div className="name">
-                                            {item.name}
+                                            {item.translations[i18next.language].name}
                                         </div>
+
                                     </div>
                                 </div>
                             })}
+
                         </div>
-                        <div onClick={() => {
-                            if (selectProduct) {
-                                setProductActive(selectProduct)
-                                setModalContent({show: false})
-                            }
-                        }} className={`success-btn ${selectRegion && "active-btn"}`}>
-                            Tasdiqlash
+
+                        <div onClick={() => selectProductType(selectProduct)}
+                             className={`success-btn ${selectProduct && "active-btn"}`}>
+                            {t("des_product")}
                         </div>
                     </div>)}
                 </div>
@@ -174,23 +221,29 @@ const National = () => {
         <Navbar/>
 
         <div className="banner-menu">
-            <img src="./images/banner.png" alt="banner"/>
+            {banner && <img src={banner.iamge} alt="banner"/>}
         </div>
 
         <div className="products-warapper">
 
             <div className="header-filter">
-                {stateActive ?
+                {sessionStorage.getItem("region") ?
                     <div onClick={() => {
                         setModalContent({show: true, status: "states"})
                         setSelectRegion(stateActive)
                     }} className="states">
-                        <img src={stateActive.img} alt=""/>
-                        {stateActive.name}
+                        <div className="icon-filter">
+                            <img
+                                src={category[Number(sessionStorage.getItem("region"))] && category[Number(sessionStorage.getItem("region"))].icon}
+                                alt=""/>
+                        </div>
+                        {category[Number(sessionStorage.getItem("region"))] && category[Number(sessionStorage.getItem("region"))].translations[i18next.language].name}
                     </div> :
                     <div onClick={() => setModalContent({show: true, status: "states"})} className="states">
-                        <img src="./images/globe.png" alt=""/>
-                        Davlatni tanlang
+                        <div className="icon-filter">
+                            <img src="./images/globe.png" alt=""/>
+                        </div>
+                        {t("region")}
                     </div>}
 
                 {productActive ?
@@ -198,40 +251,33 @@ const National = () => {
                         setModalContent({show: true, status: "products"})
                         setSelectProduct(productActive)
                     }} className="states">
-                        <img src={productActive.img} alt=""/>
-                        {productActive.name}
+                        <div className="icon-filter-product">
+                            <img src={productActive.icon} alt=""/>
+                        </div>
+                        {productType[productActive.index].translations[i18next.language].name}
                     </div> :
                     <div onClick={() => {
-                        if (stateActive) {
+                        if (sessionStorage.getItem("region")) {
                             setModalContent({show: true, status: "products"})
                         }
-                    }} className={`states ${!stateActive && "disablet"}`}>
-                        <img src="./images/product-icon.png" alt=""/>
-                        Maxulotni tanlang
+                    }} className={`states ${!sessionStorage.getItem("region") && "disablet"}`}>
+                        <div className="icon-filter">
+                            <img src="./images/product-icon.png" alt=""/>
+                        </div>
+                        {t("product")}
                     </div>}
             </div>
-
-            <div ref={ref} className="info-product">
-                <div className="section">
-                    <div className="title">Eng kichik o'lcham</div>
-                    <div className="size">10X15 sm</div>
+            {productSize.length > 0 && <div ref={ref} className="info-product">
+                <div className="product-info-box">
+                    {productSize.map((item, index) => {
+                        return <div key={index} className="section">
+                            <div className="title">{item.translations[i18next.language].category}</div>
+                            <div className="size">{item.translations[i18next.language].size}</div>
+                        </div>
+                    })}
                 </div>
+            </div>}
 
-                <div className="section">
-                    <div className="title">Eng kichik o'lcham</div>
-                    <div className="size">10X15 sm</div>
-                </div>
-
-                <div className="section">
-                    <div className="title">Eng kichik o'lcham</div>
-                    <div className="size">10X15 sm</div>
-                </div>
-
-                <div className="section">
-                    <div className="title">Eng kichik o'lcham</div>
-                    <div className="size">10X15 sm</div>
-                </div>
-            </div>
 
             <div className="products-box">
                 <div className="products">
@@ -245,7 +291,7 @@ const National = () => {
                         }, 200)
                         navigate("/contact")
                     }} className="button-register">
-                        Biz bilan bog'lanish
+                        {t("buttonRegister")}
                     </div>
 
                     <div className="pagination">

@@ -11,9 +11,6 @@
   "buttonRegister": "Biz bilan bog'lanish",
   "directions": "Bizning yo'nalishlar",
   "more": "Batafsil ma'lumot",
-  "direction1": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet facilis perspiciatis ratione velit voluptate! Architecto eligendi et mollitia obcaecati similique!",
-  "direction2": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet facilis perspiciatis ratione velit voluptate! Architecto eligendi et mollitia obcaecati similique!",
-  "direction3": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet facilis perspiciatis ratione velit voluptate! Architecto eligendi et mollitia obcaecati similique!",
   "topProducts": "Top tovarlar",
   "topProductsDees": "TLorem ipsum dolor sit amet, consectetur adipisicing elit.",
   "titleForm": "Batafsil ma’lumot uchun a’loqa",
@@ -22,6 +19,17 @@
   "directionForm": "Yo'nalishni tanlang",
   "send": "Yuborish",
   "successText": "Sizning arizangiz yuborildi!",
-  "contactText": "Biz bilan bog'lanish"
+  "contactText": "Biz bilan bog'lanish",
+  "direction": "Yonalishlar",
+  "des_direction": "Iltimos yo'nalishni tanlang!",
+  "product": "Maxsulotlar",
+  "des_product": "Iltimos maxsulotni tanlang!",
+  "success": "Tasdiqlash",
+  "region": "Davlatlar",
+  "des_region": "Iltimos davlatni tanlang!",
+  "des_footer": "Leverage agile frameworks to provide a robust synopsis for strategy collaborative",
+  "client": "Mijozlar",
+  "products": "Maxsulotlar",
+  "partners": "Hamkorlar"
 }
 

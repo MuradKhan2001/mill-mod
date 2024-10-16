@@ -1,11 +1,22 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import "./footer-style.scss"
 import {useTranslation} from "react-i18next";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
+import {MyContext} from "../App/App";
 
 const Footer = () => {
+    let value = useContext(MyContext);
     const {t} = useTranslation();
     const navigate = useNavigate();
+    const [contacts, setContacts] = useState([]);
+
+    useEffect(() => {
+        axios.get(`${value.url}contact/`).then((response) => {
+            setContacts(response.data)
+        });
+
+    }, [])
 
     return (
         <div className="footer-wrapper">
@@ -15,27 +26,31 @@ const Footer = () => {
                     <img className="logo" src="./images/logo2.png" alt=""/>
 
                     <div className="des-footer">
-                        Leverage agile frameworks to provide a robust synopsis for strategy collaborative
+                        {t("des_footer")}
                     </div>
+                    {
+                        contacts.map((item, index) => {
+                            return <div key={index} className="social-medias">
 
-                    <div className="social-medias">
-                        <a href="#">
-                            <img src="./images/ins1.png" alt=""/>
-                        </a>
+                                <a href={item.instagram}>
+                                    <img src="./images/ins1.png" alt=""/>
+                                </a>
 
-                        <a href="#">
-                            <img src="./images/face1.png" alt=""/>
-                        </a>
+                                <a href={item.facebook}>
+                                    <img src="./images/face1.png" alt=""/>
+                                </a>
 
-                        <a href="#">
-                            <img src="./images/tg1.png" alt=""/>
-                        </a>
+                                <a href={item.telegram}>
+                                    <img src="./images/tg1.png" alt=""/>
+                                </a>
 
-                        <a href="#">
-                            <img src="./images/what1.png" alt=""/>
-                        </a>
+                                <a href={item.whatsup}>
+                                    <img src="./images/what1.png" alt=""/>
+                                </a>
 
-                    </div>
+                            </div>
+                        })
+                    }
                 </div>
 
                 <div className="section mobile-section">
@@ -47,7 +62,7 @@ const Footer = () => {
                         setTimeout(() => {
                             window.scrollTo(0, 0)
                         }, 200)
-                        navigate("/auto-dealerships")
+                        navigate("/national")
                     }} className="name">
                         {t("national")}
                     </div>
@@ -56,7 +71,7 @@ const Footer = () => {
                         setTimeout(() => {
                             window.scrollTo(0, 0)
                         }, 200)
-                        navigate("/auto-auctions")
+                        navigate("/modern")
                     }} className="name">
                         {t("modern")}
                     </div>
@@ -65,36 +80,41 @@ const Footer = () => {
                         setTimeout(() => {
                             window.scrollTo(0, 0)
                         }, 200)
-                        navigate("/rental-car-companies")
+                        navigate("/promo")
                     }} className="name">
                         {t("promo")}
                     </div>
                 </div>
+                {
+                    contacts.map((item, index) => {
+                        return <div key={index} className="section">
+                            <div className="title-section mobile-title">
+                                {t("contact")}
+                            </div>
 
-                <div className="section">
-                    <div className="title-section mobile-title">
-                        {t("contact")}
-                    </div>
+                            <div className="name">
+                                {t("contactText")}
+                            </div>
 
-                    <div className="name">
-                        {t("contactText")}
-                    </div>
+                            <div className="name">
+                                <div className="icon">
+                                    <img src="./images/phone.png" alt=""/>
+                                </div>
 
-                    <div className="name">
-                        <div className="icon">
-                            <img src="./images/phone.png" alt=""/>
+                                <a href={`tel:${item.phone}`}>{item.phone}</a>
+                            </div>
+
+                            <div className="name">
+                                <div className="icon">
+                                    <img src="./images/email.png" alt=""/>
+                                </div>
+
+                                <a href={"mailto:" + item.email}>{item.email}</a>
+                            </div>
+
                         </div>
-                        <a href="#">+998 97 777 77 77</a>
-                    </div>
-
-                    <div className="name">
-                        <div className="icon">
-                            <img src="./images/email.png" alt=""/>
-                        </div>
-                        <a href="#">millmod@gmail.com</a>
-                    </div>
-
-                </div>
+                    })
+                }
             </div>
             <div className="footer">
                 mill&mod 2024

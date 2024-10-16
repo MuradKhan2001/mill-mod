@@ -20,53 +20,77 @@
 
     .content {
       margin-top: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       width: 100%;
-      height: 400px;
+      height: max-content;
       padding: 30px;
       box-shadow: 2px 4px 30px 0px #0000000A;
       border: 2px solid #EEF0F4;
       background: #F2F4F6;
       border-radius: 20px;
 
-      .left-side {
-        width: 28%;
-        height: 100%;
-        border-radius: 10px;
-        background: radial-gradient(50% 50% at 50% 50%, rgba(30, 36, 44, 0.6) 0%, rgba(30, 36, 44, 0.8) 100%);
+      .title {
+        text-align: center;
+        font-weight: bold;
+        font-size: 24px;
+        color: #1e242c;
+      }
+
+      .bottom-side {
+        margin-top: 30px;
+        width: 100%;
+        justify-content: space-between;
         display: flex;
         align-items: center;
-        justify-content: center;
-        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        height: 350px;
 
-        img {
-          width: 75%;
+        .left-side {
+          width: 28%;
+          height: 100%;
+          border-radius: 10px;
+          background: radial-gradient(50% 50% at 50% 50%, rgba(30, 36, 44, 0.6) 0%, rgba(30, 36, 44, 0.8) 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+          img {
+            width: 75%;
+          }
         }
+
+        .right-side {
+          width: 65%;
+          height: 100%;
+          border-radius: 16px;
+          background: #00000059;
+          overflow: hidden;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+
+          div {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+
+          .text-box {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: white;
+          }
+
+          box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        }
+
       }
 
-      .right-side {
-        width: 65%;
-        height: 100%;
-        border-radius: 16px;
-        background: #00000059;
-        overflow: hidden;
 
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        video {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-      }
     }
   }
 }
@@ -89,39 +113,62 @@
     .contents-products {
       width: 100%;
       margin-bottom: 100px;
-      padding-left: 15px;
-      padding-right: 15px;
+      padding-left: 20px;
+      padding-right: 20px;
+
 
       .content {
-        margin-top: 60px;
-        display: block;
-        height: 500px;
-        padding: 30px;
-        box-shadow: 2px 4px 30px 0px #0000000A;
-        border: 2px solid #EEF0F4;
-        background: #F2F4F6;
-        border-radius: 20px;
+        margin-top: 40px;
+        padding: 15px;
 
-        .left-side {
-          width: 100%;
-          height: 60%;
+        .title {
+          font-size: 22px;
         }
 
-        .right-side {
+        .bottom-side {
+          overflow: hidden;
           margin-top: 20px;
           width: 100%;
-          height: 35%;
-          img {
+          display: block;
+          height: max-content;
+
+          .left-side {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: 250px;
+            border-radius: 10px;
+            img {
+              width: 80%;
+            }
           }
 
-          video {
+          .right-side {
+            margin-top: 20px;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: 50%;
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+
+            div {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+
+            .text-box {
+              width: 100%;
+              height: 100%;
+              overflow-y: auto;
+              padding: 20px;
+              background-color: white;
+            }
+
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
           }
+
         }
       }
     }

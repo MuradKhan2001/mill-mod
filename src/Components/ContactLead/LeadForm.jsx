@@ -1,9 +1,12 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useFormik} from "formik";
 import {useTranslation} from "react-i18next";
 import "./style-form.scss"
+import axios from "axios";
+import {MyContext} from "../App/App";
 
 const LeadForm = () => {
+    let value = useContext(MyContext);
     const [success, setSuccess] = useState(false)
     const {t} = useTranslation();
     const validate = (values) => {
@@ -36,17 +39,17 @@ const LeadForm = () => {
 
             let user = {
                 phone: values.phone,
-                name: values.name,
-                direction: values.direction,
+                first_name: values.name,
+                category: values.direction,
             }
 
-            console.log(user)
-
-            setSuccess(true)
-            setTimeout(() => {
-                setSuccess(false)
-            }, 4000)
-            formik.resetForm()
+            axios.post(`${value.url}contactUs/`, user).then((response) => {
+                setSuccess(true)
+                setTimeout(() => {
+                    setSuccess(false)
+                }, 4000)
+                formik.resetForm()
+            })
 
         },
     });
@@ -80,9 +83,9 @@ const LeadForm = () => {
                 <div className={`input-lead ${formik.errors.name === "Required" ? "Required" : ""}`}>
                     <img src="./images/name-icon.png" alt=""/>
                     <input
-                           onChange={formik.handleChange}
-                           value={formik.values.name}
-                           name="name" placeholder={t("name")} type="text"/>
+                        onChange={formik.handleChange}
+                        value={formik.values.name}
+                        name="name" placeholder={t("name")} type="text"/>
                 </div>
 
                 <label htmlFor="phone">{t("phone")}</label>
@@ -90,16 +93,17 @@ const LeadForm = () => {
                 <div className={`input-lead ${formik.errors.phone === "Required" ? "Required" : ""}`}>
                     <img src="./images/phone-icon.png" alt=""/>
                     <input
-                           onChange={formik.handleChange}
-                           value={formik.values.phone}
-                           name="phone" placeholder={t("phone")} type="text"/>
+                        onChange={formik.handleChange}
+                        value={formik.values.phone}
+                        name="phone" placeholder={t("phone")} type="text"/>
                 </div>
 
                 <label htmlFor="direction">{t("directionForm")}</label>
 
                 <div className={`input-lead ${formik.errors.direction === "Required" ? "Required" : ""}`}>
                     <img src="./images/direction-icon.png" alt=""/>
-                    <select onChange={formik.handleChange} value={formik.values.direction} name="direction" id="direction">
+                    <select onChange={formik.handleChange} value={formik.values.direction} name="direction"
+                            id="direction">
                         <option value="">{t("directionForm")}</option>
                         <option value="national">{t("national")}</option>
                         <option value="modern">{t("modern")}</option>

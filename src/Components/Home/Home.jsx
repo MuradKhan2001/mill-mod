@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, useContext} from 'react';
 import "./style-home.scss"
 import Navbar from "../Navbar/Navbar";
 import Slider from "react-slick";
@@ -8,51 +8,24 @@ import CountUp from "react-countup";
 import ScrollTrigger from "react-scroll-trigger";
 import LeadForm from "../ContactLead/LeadForm";
 import Footer from "../Footer/Footer";
+import axios from "axios";
+import {MyContext} from "../App/App";
 import Aos from "aos";
+import i18next from "i18next";
+import {useNavigate} from "react-router-dom";
 
 const Home = () => {
+    const navigate = useNavigate();
+    let value = useContext(MyContext);
     const ref = useRef(null);
-    const [statistics, setStatistic] = useState({
-        clients: 2001,
-        orders: 300,
-        projects: 20
-    });
+    const [statistics, setStatistic] = useState();
     const [counterOn, setCounterOn] = useState(false);
     const {t} = useTranslation();
-    const [homePhoto, setHomePhoto] = useState([
-        {image: "./images/home1.png", video: null},
-        {image: "./images/home2.png", video: null},
-        {image: "./images/home2.webp", video: null},
-        {video: "./images/home4.mp4", image: null},
-    ]);
+    const [homePhoto, setHomePhoto] = useState([]);
+    const [aboutUsPhoto, setAboutUsPhoto] = useState([]);
+    const [directions, setDirections] = useState([]);
 
-    const [topProducts, setTopProducts] = useState([
-        {
-            img: "./images/product.png",
-            title: "Lorem ipsum dolor sit amet consectetur",
-            description: "Lorem ipsum dolor sit amet consectetur. Adipiscing tincidunt leo non praesent morbi."
-        },
-        {
-            img: "./images/product2.png",
-            title: "Lorem ipsum dolor sit amet consectetur",
-            description: "Lorem ipsum dolor sit amet consectetur. Adipiscing tincidunt leo non praesent morbi."
-        },
-        {
-            img: "./images/product.png",
-            title: "Lorem ipsum dolor sit amet consectetur",
-            description: "Lorem ipsum dolor sit amet consectetur. Adipiscing tincidunt leo non praesent morbi."
-        },
-        {
-            img: "./images/product2.png",
-            title: "Lorem ipsum dolor sit amet consectetur",
-            description: "Lorem ipsum dolor sit amet consectetur. Adipiscing tincidunt leo non praesent morbi."
-        },
-        {
-            img: "./images/product.png",
-            title: "Lorem ipsum dolor sit amet consectetur",
-            description: "Lorem ipsum dolor sit amet consectetur. Adipiscing tincidunt leo non praesent morbi."
-        },
-    ])
+    const [topProducts, setTopProducts] = useState([])
 
     const settingsHomeSlider = {
         lazyLoad: false,
@@ -116,8 +89,8 @@ const Home = () => {
         slidesToScroll: 3,
         initialSlide: 3,
         responsive: [{
-            breakpoint: 1024, settings: {
-                slidesToShow: 1, slidesToScroll: 1, infinite: true, dots: false
+            breakpoint: 1440, settings: {
+                slidesToShow: 4, slidesToScroll: 4, infinite: true, dots: false
             }
         }, {
             breakpoint: 600, settings: {
@@ -131,8 +104,40 @@ const Home = () => {
     };
 
     useEffect(() => {
+        axios.get(`${value.url}banner/?type=home`).then((response) => {
+            setHomePhoto(response.data)
+        });
+
+        axios.get(`${value.url}about-us/`).then((response) => {
+            setAboutUsPhoto(response.data)
+        });
+
+        axios.get(`${value.url}category/`).then((response) => {
+            setDirections(response.data)
+        });
+
+        axios.get(`${value.url}statistic/`).then((response) => {
+            setStatistic(response.data[0])
+        });
+
+        axios.get(`${value.url}top-product/`).then((response) => {
+            setTopProducts(response.data)
+        });
+
         Aos.init({duration: 1000});
     }, [])
+
+    const moreInfo = (product) => {
+        if (product.category_key === "national") {
+            navigate("/national")
+        }
+        if (product.category_key === "modern") {
+            navigate("/modern")
+        }
+        if (product.category_key === "promo") {
+            navigate("/promo")
+        }
+    }
 
     return (
         <div className="home-wrapper">
@@ -141,7 +146,7 @@ const Home = () => {
                 <Slider {...settingsHomeSlider}>
                     {homePhoto ? homePhoto.map((item, index) => {
                         return <div key={index}>
-                            {item.image && <img src={item.image} alt=""/>}
+                            {item.iamge && <img src={item.iamge} alt=""/>}
                             {item.video && <video autoPlay loop muted src={item.video}></video>}
                         </div>
                     }) : ""}
@@ -169,113 +174,155 @@ const Home = () => {
             </div>
 
             <div className="home-body-wrapper">
-                <div className="about-us">
-                    <div data-aos="zoom-in-down" className="main-title">{t("aboutUs")}</div>
-                    <div data-aos="zoom-in"
-                         data-aos-easing="ease-in-back"
-                         data-aos-offset="0" className="title">
-                        Lorem ipsum dolor sit amet consectetur. Sit urna tortor diam leo. Neque sem
-                    </div>
-                    <div data-aos="fade-up"
-                         data-aos-duration="2000" className="des">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-                        the
-                        industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
-                        type
-                        and scrambled it to make a type specimen book.
-                    </div>
-                    <div data-aos="fade-up"
-                         data-aos-anchor-placement="top-center" className="slider-about-us">
-                        <Slider {...settingsAboutUsSlider}>
-                            {homePhoto ? homePhoto.map((item, index) => {
-                                return <div key={index}>
-                                    {item.image && <img src={item.image} alt=""/>}
-                                    {item.video && <video autoPlay loop muted src={item.video}></video>}
-                                </div>
-                            }) : ""}
-                        </Slider>
-                    </div>
-                </div>
-                <div className="directions">
+                {
+                    aboutUsPhoto.map((item, index) => {
+                        return <div key={index} className="about-us">
+                            <div data-aos="zoom-in-down" className="main-title">{t("aboutUs")}</div>
+
+                            <div data-aos="zoom-in"
+                                 data-aos-easing="ease-in-back"
+                                 data-aos-offset="0" className="title">
+                                {item.translations[i18next.language].title}
+                            </div>
+
+                            <div data-aos="fade-up"
+                                 data-aos-duration="2000" className="des">
+                                {item.translations[i18next.language].description}
+                            </div>
+
+                            <div data-aos="fade-up"
+                                 data-aos-anchor-placement="top-center" className="slider-about-us">
+                                <Slider {...settingsAboutUsSlider}>
+                                    {item.media ? item.media.map((item, index) => {
+                                        return <div key={index}>
+                                            {item.iamge && <img src={item.iamge} alt=""/>}
+                                            {item.video && <video autoPlay loop muted src={item.video}></video>}
+                                        </div>
+                                    }) : ""}
+                                </Slider>
+
+                            </div>
+                        </div>
+                    })
+                }
+
+
+                {directions && <div className="directions">
                     <div data-aos="zoom-out-right" className="title">
                         {t("directions")}
                     </div>
 
                     <div className="bottom-content">
-                        <div data-aos="flip-right" className="left-side">
-                            <img className="bg-direction" src="./images/direction3.png" alt=""/>
-                            <div className="blur-direction">
-                                <div className="sloy-direction">
-                                    <div className="contents">
-                                        <div className="title-direction">
-                                            {t("national")}
-                                        </div>
-                                        <div className="des-direction">
-                                            {t("direction1")}
-                                        </div>
-                                        <div className="footer-direction">
-                                            <div className="logo-direction">
-                                                <img src="./images/logo2.png" alt=""/>
-                                            </div>
-                                            <div className="button">
-                                                {t("more")}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="right-side">
-                            <div data-aos="flip-up" className="top-direction">
-                                <img className="bg-direction" src="./images/direction2.png" alt=""/>
-                                <div className="blur-direction">
-                                    <div className="sloy-direction">
-                                        <div className="contents">
-                                            <div className="title-direction">
-                                                {t("promo")}
-                                            </div>
-                                            <div className="des-direction">
-                                                {t("direction2")}
-                                            </div>
-                                            <div className="footer-direction">
-                                                <div className="logo-direction">
-                                                    <img src="./images/logo2.png" alt=""/>
-                                                </div>
-                                                <div className="button">
-                                                    {t("more")}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div data-aos="flip-up" className="bottom-direction">
-                                <img className="bg-direction" src="./images/direction1.png" alt=""/>
-                                <div className="blur-direction">
-                                    <div className="sloy-direction">
-                                        <div className="contents">
-                                            <div className="title-direction">
-                                                {t("modern")}
-                                            </div>
-                                            <div className="des-direction">
-                                                {t("direction3")}
-                                            </div>
-                                            <div className="footer-direction">
-                                                <div className="logo-direction">
-                                                    <img src="./images/logo2.png" alt=""/>
+                        {directions.map((item, index) => {
+                            if (item.type === "national") {
+                                return <div key={index} data-aos="flip-right" className="left-side">
+                                    <img className="bg-direction" src={item.image} alt=""/>
+                                    <div className="blur-direction">
+                                        <div className="sloy-direction">
+                                            <div className="contents">
+                                                <div className="title-direction">
+                                                    {item.translations[i18next.language].name}
                                                 </div>
-                                                <div className="button">
-                                                    {t("more")}
+                                                <div className="des-direction">
+                                                    {item.translations[i18next.language].description}
+                                                </div>
+                                                <div className="footer-direction">
+                                                    <div className="logo-direction">
+                                                        <img src="./images/logo2.png" alt=""/>
+                                                    </div>
+                                                    <div onClick={() => {
+                                                        setTimeout(() => {
+                                                            window.scrollTo(0, 0)
+                                                        }, 200)
+                                                        localStorage.setItem("type_catalog", item.type)
+                                                        localStorage.setItem("id_catalog", item.id)
+                                                        navigate("/national")
+                                                    }} className="button">
+                                                        {t("more")}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
+                        })}
+
+                        <div className="right-side">
+                            {directions.map((item, index) => {
+                                if (item.type === "modern") {
+                                    return <div key={index} data-aos="flip-up" className="top-direction">
+                                        <img className="bg-direction" src={item.image}
+                                             alt=""/>
+                                        <div className="blur-direction">
+                                            <div className="sloy-direction">
+                                                <div className="contents">
+                                                    <div className="title-direction">
+                                                        {item.translations[i18next.language].name}
+                                                    </div>
+                                                    <div className="des-direction">
+                                                        {item.translations[i18next.language].description}
+                                                    </div>
+                                                    <div className="footer-direction">
+                                                        <div className="logo-direction">
+                                                            <img src="./images/logo2.png" alt=""/>
+                                                        </div>
+                                                        <div onClick={() => {
+                                                            setTimeout(() => {
+                                                                window.scrollTo(0, 0)
+                                                            }, 200)
+                                                            localStorage.setItem("type_catalog", item.type)
+                                                            localStorage.setItem("id_catalog", item.id)
+                                                            navigate("/modern")
+                                                        }} className="button">
+                                                            {t("more")}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                if (item.type === "promo") {
+                                    return <div key={index} data-aos="flip-up" className="bottom-direction">
+                                        <img className="bg-direction" src={item.image}
+                                             alt=""/>
+                                        <div className="blur-direction">
+                                            <div className="sloy-direction">
+                                                <div className="contents">
+                                                    <div className="title-direction">
+                                                        {item.translations[i18next.language].name}
+                                                    </div>
+                                                    <div className="des-direction">
+                                                        {item.translations[i18next.language].description}
+                                                    </div>
+                                                    <div className="footer-direction">
+                                                        <div className="logo-direction">
+                                                            <img src="./images/logo2.png" alt=""/>
+                                                        </div>
+                                                        <div onClick={() => {
+                                                            setTimeout(() => {
+                                                                window.scrollTo(0, 0)
+                                                            }, 200)
+                                                            localStorage.setItem("type_catalog", item.type)
+                                                            localStorage.setItem("id_catalog", item.id)
+                                                            navigate("/promo")
+                                                        }} className="button">
+                                                            {t("more")}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            })}
                         </div>
                     </div>
-                </div>
+                </div>}
+
             </div>
 
             <div className="statistics">
@@ -291,7 +338,7 @@ const Home = () => {
                             </div>
                         </ScrollTrigger>
                         <div className="text">
-                            Mijozlar
+                            {t("client")}
                         </div>
                     </div>
                     <span className="line"></span>
@@ -299,12 +346,12 @@ const Home = () => {
                         <ScrollTrigger onEnter={() => setCounterOn(true)} onExit={() => setCounterOn(false)}>
                             <div className="num">
                                 {counterOn &&
-                                    <CountUp start={0} end={statistics && statistics.orders} duration={2} delay={0}/>}
+                                    <CountUp start={0} end={statistics && statistics.products} duration={2} delay={0}/>}
                                 +
                             </div>
                         </ScrollTrigger>
                         <div className="text">
-                            Maxsulotlar
+                            {t("products")}
                         </div>
                     </div>
                     <span className="line"></span>
@@ -312,12 +359,12 @@ const Home = () => {
                         <ScrollTrigger onEnter={() => setCounterOn(true)} onExit={() => setCounterOn(false)}>
                             <div className="num">
                                 {counterOn &&
-                                    <CountUp start={0} end={statistics && statistics.projects} duration={2} delay={0}/>}
+                                    <CountUp start={0} end={statistics && statistics.partners} duration={2} delay={0}/>}
                                 +
                             </div>
                         </ScrollTrigger>
                         <div className="text">
-                            Hamkorlar
+                            {t("partners")}
                         </div>
                     </div>
                 </div>
@@ -336,16 +383,17 @@ const Home = () => {
                             {topProducts ? topProducts.map((item, index) => {
                                 return <div data-aos="flip-left" key={index} className="slider-box">
                                     <div className="img-box">
-                                        <img src={item.img} alt=""/>
+                                        <img src={item.photo} alt=""/>
                                     </div>
                                     <div className="text-box">
-                                        <div className="title-top">{item.title}</div>
+                                        <div
+                                            className="title-top">{item.translations && item.translations[i18next.language].name}</div>
 
                                         <div className="des-top">
-                                            {item.description}
+                                            {item.translations && item.translations[i18next.language].description}
                                         </div>
 
-                                        <div className="more-btn">
+                                        <div onClick={() => moreInfo(item)} className="more-btn">
                                             {t("more")}
                                         </div>
                                     </div>

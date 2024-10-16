@@ -5,6 +5,7 @@ import {CSSTransition} from "react-transition-group";
 import {MyContext} from "../App/App";
 import {useTranslation} from "react-i18next";
 import i18next from "i18next";
+import axios from "axios";
 
 
 const Navbar = () => {
@@ -16,9 +17,12 @@ const Navbar = () => {
     const navigate = useNavigate();
     const [contact, setContact] = useState("");
     const [mobileSubmenu, setMobileSubmenu] = useState(false);
+    const [directions, setDirections] = useState([]);
 
     useEffect(() => {
-
+        axios.get(`${value.url}category/`).then((response) => {
+            setDirections(response.data)
+        });
     }, []);
 
     const language = [
@@ -87,32 +91,28 @@ const Navbar = () => {
                     <div className="nav-item-sub-desctop">
                         {t("katalogProduct")}
                         <div className="submenu">
-                            <div onClick={() => {
-                                setTimeout(() => {
-                                    window.scrollTo(0, 0)
-                                }, 200)
-                                navigate("/national")
-                            }} className="name">
-                                {t("national")}
-                            </div>
-
-                            <div onClick={() => {
-                                setTimeout(() => {
-                                    window.scrollTo(0, 0)
-                                }, 200)
-                                navigate("/auto-auctions")
-                            }} className="name">
-                                {t("modern")}
-                            </div>
-
-                            <div onClick={() => {
-                                setTimeout(() => {
-                                    window.scrollTo(0, 0)
-                                }, 200)
-                                navigate("/rental-car-companies")
-                            }} className="name">
-                                {t("promo")}
-                            </div>
+                            {
+                                directions.map((item, index) => {
+                                    return <div key={index} onClick={() => {
+                                        setTimeout(() => {
+                                            window.scrollTo(0, 0)
+                                        }, 200)
+                                        localStorage.setItem("type_catalog", item.type)
+                                        localStorage.setItem("id_catalog", item.id)
+                                        if (item.type == "national") {
+                                            navigate("/national")
+                                        }
+                                        if (item.type == "modern") {
+                                            navigate("/modern")
+                                        }
+                                        if (item.type == "promo") {
+                                            navigate("/promo")
+                                        }
+                                    }} className="name">
+                                        {item.translations[i18next.language].name}
+                                    </div>
+                                })
+                            }
                         </div>
                     </div>
 
@@ -122,32 +122,29 @@ const Navbar = () => {
                     </div>
 
                     {mobileSubmenu && <div className="submenu-mobile">
-                        <div onClick={() => {
-                            setTimeout(() => {
-                                window.scrollTo(0, 0)
-                            }, 200)
-                            navigate("/national")
-                        }} className="name">
-                            {t("national")}
-                        </div>
+                        {
+                            directions.map((item, index) => {
+                                return <div key={index} onClick={() => {
+                                    setTimeout(() => {
+                                        window.scrollTo(0, 0)
+                                    }, 200)
+                                    localStorage.setItem("type_catalog", item.type)
+                                    localStorage.setItem("id_catalog", item.id)
+                                    if (item.type == "national") {
+                                        navigate("/national")
+                                    }
+                                    if (item.type == "modern") {
+                                        navigate("/modern")
+                                    }
+                                    if (item.type == "promo") {
+                                        navigate("/promo")
+                                    }
+                                }} className="name">
+                                    {item.translations[i18next.language].name}
+                                </div>
+                            })
+                        }
 
-                        <div onClick={() => {
-                            setTimeout(() => {
-                                window.scrollTo(0, 0)
-                            }, 200)
-                            navigate("/auto-auctions")
-                        }} className="name">
-                            {t("modern")}
-                        </div>
-
-                        <div onClick={() => {
-                            setTimeout(() => {
-                                window.scrollTo(0, 0)
-                            }, 200)
-                            navigate("/rental-car-companies")
-                        }} className="name">
-                            {t("promo")}
-                        </div>
                     </div>}
 
                     <div onClick={() => {
