@@ -9,6 +9,7 @@ import ScrollTrigger from "react-scroll-trigger";
 import LeadForm from "../ContactLead/LeadForm";
 import Footer from "../Footer/Footer";
 import axios from "axios";
+import DOMPurify from 'dompurify';
 import {MyContext} from "../App/App";
 import Aos from "aos";
 import i18next from "i18next";
@@ -251,7 +252,7 @@ const Home = () => {
 
                         <div className="right-side">
                             {directions.map((item, index) => {
-                                if (item.type === "modern") {
+                                if (item.type === "promo") {
                                     return <div key={index} data-aos="flip-up" className="top-direction">
                                         <img className="bg-direction" src={item.image}
                                              alt=""/>
@@ -285,7 +286,7 @@ const Home = () => {
                                     </div>
                                 }
 
-                                if (item.type === "promo") {
+                                if (item.type === "modern") {
                                     return <div key={index} data-aos="flip-up" className="bottom-direction">
                                         <img className="bg-direction" src={item.image}
                                              alt=""/>
@@ -390,7 +391,8 @@ const Home = () => {
                                             className="title-top">{item.translations && item.translations[i18next.language].name}</div>
 
                                         <div className="des-top">
-                                            {item.translations && item.translations[i18next.language].description}
+                                        <div
+                                                    dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(item.translations[i18next.language].description)}}/>
                                         </div>
 
                                         <div onClick={() => moreInfo(item)} className="more-btn">
