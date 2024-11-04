@@ -14,8 +14,6 @@ const LeadForm = () => {
 
         if (!values.phone) {
             errors.phone = "Required";
-        } else if (isNaN(Number(values.phone))) {
-            errors.phone = "Required";
         }
 
         if (!values.name) {

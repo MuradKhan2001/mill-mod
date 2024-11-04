@@ -7,7 +7,7 @@ import NotFound from "../NotFound/NotFound";
 export const MyContext = createContext();
 
 function App() {
-    const [url, setUrl] = useState('http://192.168.1.2:8000/api/v1/');
+    const [url, setUrl] = useState('http://api.mill-mod.com/api/v1/');
 
     return (
         <>
