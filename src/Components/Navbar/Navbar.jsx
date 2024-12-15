@@ -7,7 +7,6 @@ import {useTranslation} from "react-i18next";
 import i18next from "i18next";
 import axios from "axios";
 
-
 const Navbar = () => {
     const {t} = useTranslation();
     let value = useContext(MyContext);
@@ -15,16 +14,13 @@ const Navbar = () => {
     const nodeRef = useRef(null);
     const [nav, setNav] = useState(false);
     const navigate = useNavigate();
-    const [contact, setContact] = useState("");
     const [mobileSubmenu, setMobileSubmenu] = useState(false);
     const [directions, setDirections] = useState([]);
-
     useEffect(() => {
         axios.get(`${value.url}category/`).then((response) => {
             setDirections(response.data)
         });
     }, []);
-
     const language = [
         {
             code: "uz",
@@ -42,23 +38,20 @@ const Navbar = () => {
             country_code: "ru",
         },
     ];
-
     const changeLanguage = (code) => {
         localStorage.setItem("lng", code);
         i18next.changeLanguage(code);
         setDropdownShow((prevState) => (prevState = false));
     };
-
     window.onclick = function (event) {
         if (!event.target.matches('.language-name')) {
             setDropdownShow(false)
         }
     };
 
-
     return <div className="navbar-wrapper">
         <div className="logo-desctop">
-            <img onClick={() => navigate("/")} src="./images/logo1.png" alt="ss"/>
+            <img onClick={() => navigate("/")} src="./images/logo1.png" alt="logo-mill-mod" loading="lazy"/>
         </div>
         <CSSTransition
             in={window.innerWidth > 768 ? true : nav}
@@ -69,7 +62,6 @@ const Navbar = () => {
         >
             <div className="nav-list">
                 <div ref={nodeRef} className="sloy-mobile">
-
                     <div onClick={() => {
                         setTimeout(() => {
                             window.scrollTo(0, 0)
@@ -78,7 +70,6 @@ const Navbar = () => {
                     }} className="nav-item">
                         {t("home")}
                     </div>
-
                     <div onClick={() => {
                         setTimeout(() => {
                             window.scrollTo(0, 0)
@@ -87,7 +78,6 @@ const Navbar = () => {
                     }} className="nav-item">
                         {t("aboutProduct")}
                     </div>
-
                     <div className="nav-item-sub-desctop">
                         {t("katalogProduct")}
                         <div className="submenu">
@@ -115,12 +105,10 @@ const Navbar = () => {
                             }
                         </div>
                     </div>
-
                     <div onClick={() => setMobileSubmenu(!mobileSubmenu)} className="nav-item-sub-mobile">
                         {t("katalogProduct")}
                         <img className={`down ${mobileSubmenu ? "down-rotate" : ""}`} src="./images/down.png" alt=""/>
                     </div>
-
                     {mobileSubmenu && <div className="submenu-mobile">
                         {
                             directions.map((item, index) => {
@@ -146,7 +134,6 @@ const Navbar = () => {
                         }
 
                     </div>}
-
                     <div onClick={() => {
                         setTimeout(() => {
                             window.scrollTo(0, 0)
@@ -158,13 +145,10 @@ const Navbar = () => {
                 </div>
             </div>
         </CSSTransition>
-
         <div className="mobile-left-side">
-
             <div className="logo">
                 <img onClick={() => navigate("/")} src="./images/logo1.png" alt="ss"/>
             </div>
-
             <div className="language">
                 <div className="dropdown">
                     <div
@@ -195,7 +179,6 @@ const Navbar = () => {
                     )}
                 </div>
             </div>
-
             {nav ? <div className="nav-show">
                 <img onClick={() => {
                     setNav(false)

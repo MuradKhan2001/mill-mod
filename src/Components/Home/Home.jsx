@@ -13,6 +13,7 @@ import DOMPurify from 'dompurify';
 import {MyContext} from "../App/App";
 import Aos from "aos";
 import i18next from "i18next";
+import {Helmet} from "react-helmet"
 import {useNavigate} from "react-router-dom";
 
 const Home = () => {
@@ -25,9 +26,7 @@ const Home = () => {
     const [homePhoto, setHomePhoto] = useState([]);
     const [aboutUsPhoto, setAboutUsPhoto] = useState([]);
     const [directions, setDirections] = useState([]);
-
     const [topProducts, setTopProducts] = useState([])
-
     const settingsHomeSlider = {
         lazyLoad: false,
         slidesToShow: 1,
@@ -103,7 +102,6 @@ const Home = () => {
             }
         }]
     };
-
     useEffect(() => {
         axios.get(`${value.url}banner/?type=home`).then((response) => {
             setHomePhoto(response.data)
@@ -127,7 +125,6 @@ const Home = () => {
 
         Aos.init({duration: 1000});
     }, [])
-
     const moreInfo = (product) => {
         if (product.category_key === "national") {
             navigate("/national")
@@ -142,132 +139,99 @@ const Home = () => {
 
     return (
         <div className="home-wrapper">
-            <Navbar/>
-            <div className="home-slider-wrapper">
-                <Slider {...settingsHomeSlider}>
-                    {homePhoto ? homePhoto.map((item, index) => {
-                        return <div key={index}>
-                            {item.iamge && <img src={item.iamge} alt=""/>}
-                            {item.video && <video autoPlay loop muted src={item.video}></video>}
-                        </div>
-                    }) : ""}
-                </Slider>
-                <div className="sloy">
-                    <div className="content-home">
-                        <div data-aos="zoom-out-right" className="top-text">
-                            <Textra effect='scale' data={[t("national"), t("modern"), t("promo")]}/>
-                        </div>
-
-                        <div data-aos="zoom-in"
-                             data-aos-easing="ease-in-back"
-                             data-aos-offset="0" className="body-text">
-                            {t("mainTextHome")}
-                        </div>
-
-                        <div data-aos="fade-up"
-                             data-aos-anchor-placement="bottom-bottom" onClick={() => {
-                            ref.current?.scrollIntoView({behavior: "smooth"});
-                        }} className="home-button">
-                            {t("buttonRegister")}
+            <Helmet>
+                <title>{t("home-title")}</title>
+                <meta name="description"
+                      content={t("home-des")}/>
+            </Helmet>
+            <header>
+                <Navbar/>
+            </header>
+            <main>
+                <section className="home-slider-wrapper">
+                    <Slider {...settingsHomeSlider}>
+                        {homePhoto ? homePhoto.map((item, index) => {
+                            return <div key={index}>
+                                {item.iamge && <img src={item.iamge} alt="mill-mod-banner" loading="lazy"/>}
+                                {item.video && <video autoPlay loop muted src={item.video}></video>}
+                            </div>
+                        }) : ""}
+                    </Slider>
+                    <div className="sloy">
+                        <div className="content-home">
+                            <strong data-aos="zoom-out-right" className="top-text">
+                                <Textra effect='scale' data={[t("national"), t("modern"), t("promo")]}/>
+                            </strong>
+                            <h1 data-aos="zoom-in"
+                                data-aos-easing="ease-in-back"
+                                data-aos-offset="0" className="body-text">
+                                {t("mainTextHome")}
+                            </h1>
+                            <button type="button" data-aos="fade-up"
+                                    data-aos-anchor-placement="bottom-bottom" onClick={() => {
+                                ref.current?.scrollIntoView({behavior: "smooth"});
+                            }} className="home-button">
+                                {t("buttonRegister")}
+                            </button>
                         </div>
                     </div>
-                </div>
-            </div>
+                </section>
+                <section className="home-body-wrapper">
+                    {
+                        aboutUsPhoto.map((item, index) => {
+                            return <div key={index} className="about-us">
+                                <h2 data-aos="zoom-in-down" className="main-title">{t("aboutUs")}</h2>
 
-            <div className="home-body-wrapper">
-                {
-                    aboutUsPhoto.map((item, index) => {
-                        return <div key={index} className="about-us">
-                            <div data-aos="zoom-in-down" className="main-title">{t("aboutUs")}</div>
+                                <strong data-aos="zoom-in"
+                                        data-aos-easing="ease-in-back"
+                                        data-aos-offset="0" className="title">
+                                    {item.translations[i18next.language].title}
+                                </strong>
 
-                            <div data-aos="zoom-in"
-                                 data-aos-easing="ease-in-back"
-                                 data-aos-offset="0" className="title">
-                                {item.translations[i18next.language].title}
-                            </div>
+                                <strong data-aos="fade-up"
+                                        data-aos-duration="2000" className="des">
+                                    {item.translations[i18next.language].description}
+                                </strong>
 
-                            <div data-aos="fade-up"
-                                 data-aos-duration="2000" className="des">
-                                {item.translations[i18next.language].description}
-                            </div>
-
-                            <div data-aos="fade-up"
-                                 data-aos-anchor-placement="top-center" className="slider-about-us">
-                                <Slider {...settingsAboutUsSlider}>
-                                    {item.media ? item.media.map((item, index) => {
-                                        return <div key={index}>
-                                            {item.iamge && <img src={item.iamge} alt=""/>}
-                                            {item.video && <video autoPlay loop muted src={item.video}></video>}
-                                        </div>
-                                    }) : ""}
-                                </Slider>
-
-                            </div>
-                        </div>
-                    })
-                }
-
-
-                {directions && <div className="directions">
-                    <div data-aos="zoom-out-right" className="title">
-                        {t("directions")}
-                    </div>
-
-                    <div className="bottom-content">
-
-                        {directions.map((item, index) => {
-                            if (item.type === "national") {
-                                return <div key={index} data-aos="flip-right" className="left-side">
-                                    <img className="bg-direction" src={item.image} alt=""/>
-                                    <div className="blur-direction">
-                                        <div className="sloy-direction">
-                                            <div className="contents">
-                                                <div className="title-direction">
-                                                    {item.translations[i18next.language].name}
-                                                </div>
-                                                <div className="des-direction">
-                                                    {item.translations[i18next.language].description}
-                                                </div>
-                                                <div className="footer-direction">
-                                                    <div className="logo-direction">
-                                                        <img src="./images/logo2.png" alt=""/>
-                                                    </div>
-                                                    <div onClick={() => {
-                                                        setTimeout(() => {
-                                                            window.scrollTo(0, 0)
-                                                        }, 200)
-                                                        localStorage.setItem("type_catalog", item.type)
-                                                        localStorage.setItem("id_catalog", item.id)
-                                                        navigate("/national")
-                                                    }} className="button">
-                                                        {t("more")}
-                                                    </div>
-                                                </div>
+                                <div data-aos="fade-up"
+                                     data-aos-anchor-placement="top-center" className="slider-about-us">
+                                    <Slider {...settingsAboutUsSlider}>
+                                        {item.media ? item.media.map((item, index) => {
+                                            return <div key={index}>
+                                                {item.iamge && <img src={item.iamge} alt="about-us" loading="lazy"/>}
+                                                {item.video && <video autoPlay loop muted src={item.video}></video>}
                                             </div>
-                                        </div>
-                                    </div>
+                                        }) : ""}
+                                    </Slider>
+
                                 </div>
-                            }
-                        })}
+                            </div>
+                        })
+                    }
+                    {directions && <div className="directions">
+                        <h2 data-aos="zoom-out-right" className="title">
+                            {t("directions")}
+                        </h2>
 
-                        <div className="right-side">
+                        <div className="bottom-content">
+
                             {directions.map((item, index) => {
-                                if (item.type === "promo") {
-                                    return <div key={index} data-aos="flip-up" className="top-direction">
-                                        <img className="bg-direction" src={item.image}
-                                             alt=""/>
+                                if (item.type === "national") {
+                                    return <div key={index} data-aos="flip-right" className="left-side">
+                                        <img className="bg-direction" src={item.image} alt="national" loading="lazy"/>
                                         <div className="blur-direction">
                                             <div className="sloy-direction">
                                                 <div className="contents">
-                                                    <div className="title-direction">
+                                                    <h3 className="title-direction">
                                                         {item.translations[i18next.language].name}
-                                                    </div>
-                                                    <div className="des-direction">
+                                                    </h3>
+                                                    <strong className="des-direction">
                                                         {item.translations[i18next.language].description}
-                                                    </div>
+                                                    </strong>
                                                     <div className="footer-direction">
                                                         <div className="logo-direction">
-                                                            <img src="./images/logo2.png" alt=""/>
+                                                            <img src="./images/logo2.png" alt="logo-mill-mod"
+                                                                 loading="lazy"/>
                                                         </div>
                                                         <div onClick={() => {
                                                             setTimeout(() => {
@@ -275,41 +239,7 @@ const Home = () => {
                                                             }, 200)
                                                             localStorage.setItem("type_catalog", item.type)
                                                             localStorage.setItem("id_catalog", item.id)
-                                                            navigate("/modern")
-                                                        }} className="button">
-                                                            {t("more")}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-
-                                if (item.type === "modern") {
-                                    return <div key={index} data-aos="flip-up" className="bottom-direction">
-                                        <img className="bg-direction" src={item.image}
-                                             alt=""/>
-                                        <div className="blur-direction">
-                                            <div className="sloy-direction">
-                                                <div className="contents">
-                                                    <div className="title-direction">
-                                                        {item.translations[i18next.language].name}
-                                                    </div>
-                                                    <div className="des-direction">
-                                                        {item.translations[i18next.language].description}
-                                                    </div>
-                                                    <div className="footer-direction">
-                                                        <div className="logo-direction">
-                                                            <img src="./images/logo2.png" alt=""/>
-                                                        </div>
-                                                        <div onClick={() => {
-                                                            setTimeout(() => {
-                                                                window.scrollTo(0, 0)
-                                                            }, 200)
-                                                            localStorage.setItem("type_catalog", item.type)
-                                                            localStorage.setItem("id_catalog", item.id)
-                                                            navigate("/promo")
+                                                            navigate("/national")
                                                         }} className="button">
                                                             {t("more")}
                                                         </div>
@@ -320,108 +250,180 @@ const Home = () => {
                                     </div>
                                 }
                             })}
-                        </div>
-                    </div>
-                </div>}
 
-            </div>
+                            <div className="right-side">
+                                {directions.map((item, index) => {
+                                    if (item.type === "promo") {
+                                        return <div key={index} data-aos="flip-up" className="top-direction">
+                                            <img className="bg-direction" src={item.image}
+                                                 alt="promo" loading="lazy"/>
+                                            <div className="blur-direction">
+                                                <div className="sloy-direction">
+                                                    <div className="contents">
+                                                        <h3 className="title-direction">
+                                                            {item.translations[i18next.language].name}
+                                                        </h3>
+                                                        <strong className="des-direction">
+                                                            {item.translations[i18next.language].description}
+                                                        </strong>
+                                                        <div className="footer-direction">
+                                                            <div className="logo-direction">
+                                                                <img src="./images/logo2.png" alt="logo-mill-mod"
+                                                                     loading="lazy"/>
+                                                            </div>
+                                                            <div onClick={() => {
+                                                                setTimeout(() => {
+                                                                    window.scrollTo(0, 0)
+                                                                }, 200)
+                                                                localStorage.setItem("type_catalog", item.type)
+                                                                localStorage.setItem("id_catalog", item.id)
+                                                                navigate("/modern")
+                                                            }} className="button">
+                                                                {t("more")}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
 
-            <div className="statistics">
-                <div className="circle1"></div>
-                <div className="circle2"></div>
-                <div className="count-box">
-                    <div className="count">
-                        <ScrollTrigger onEnter={() => setCounterOn(true)} onExit={() => setCounterOn(false)}>
-                            <div className="num">
-                                {counterOn &&
-                                    <CountUp start={0} end={statistics && statistics.clients} duration={2} delay={0}/>}
-                                +
+                                    if (item.type === "modern") {
+                                        return <div key={index} data-aos="flip-up" className="bottom-direction">
+                                            <img className="bg-direction" src={item.image}
+                                                 alt="modern" loading="lazy"/>
+                                            <div className="blur-direction">
+                                                <div className="sloy-direction">
+                                                    <div className="contents">
+                                                        <h3 className="title-direction">
+                                                            {item.translations[i18next.language].name}
+                                                        </h3>
+                                                        <strong className="des-direction">
+                                                            {item.translations[i18next.language].description}
+                                                        </strong>
+                                                        <div className="footer-direction">
+                                                            <div className="logo-direction">
+                                                                <img src="./images/logo2.png" alt="logo-mill-mod"
+                                                                     loading="lazy"/>
+                                                            </div>
+                                                            <div onClick={() => {
+                                                                setTimeout(() => {
+                                                                    window.scrollTo(0, 0)
+                                                                }, 200)
+                                                                localStorage.setItem("type_catalog", item.type)
+                                                                localStorage.setItem("id_catalog", item.id)
+                                                                navigate("/promo")
+                                                            }} className="button">
+                                                                {t("more")}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                })}
                             </div>
-                        </ScrollTrigger>
-                        <div className="text">
-                            {t("client")}
                         </div>
-                    </div>
-                    <span className="line"></span>
-                    <div className="count">
-                        <ScrollTrigger onEnter={() => setCounterOn(true)} onExit={() => setCounterOn(false)}>
-                            <div className="num">
-                                {counterOn &&
-                                    <CountUp start={0} end={statistics && statistics.products} duration={2} delay={0}/>}
-                                +
+                    </div>}
+                </section>
+                <section className="statistics">
+                    <div className="circle1"></div>
+                    <div className="circle2"></div>
+                    <div className="count-box">
+                        <div className="count">
+                            <ScrollTrigger onEnter={() => setCounterOn(true)} onExit={() => setCounterOn(false)}>
+                                <div className="num">
+                                    {counterOn &&
+                                        <CountUp start={0} end={statistics && statistics.clients} duration={2}
+                                                 delay={0}/>}
+                                    +
+                                </div>
+                            </ScrollTrigger>
+                            <div className="text">
+                                {t("client")}
                             </div>
-                        </ScrollTrigger>
-                        <div className="text">
-                            {t("products")}
                         </div>
-                    </div>
-                    <span className="line"></span>
-                    <div className="count">
-                        <ScrollTrigger onEnter={() => setCounterOn(true)} onExit={() => setCounterOn(false)}>
-                            <div className="num">
-                                {counterOn &&
-                                    <CountUp start={0} end={statistics && statistics.partners} duration={2} delay={0}/>}
-                                +
+                        <span className="line"></span>
+                        <div className="count">
+                            <ScrollTrigger onEnter={() => setCounterOn(true)} onExit={() => setCounterOn(false)}>
+                                <div className="num">
+                                    {counterOn &&
+                                        <CountUp start={0} end={statistics && statistics.products} duration={2}
+                                                 delay={0}/>}
+                                    +
+                                </div>
+                            </ScrollTrigger>
+                            <div className="text">
+                                {t("products")}
                             </div>
-                        </ScrollTrigger>
-                        <div className="text">
-                            {t("partners")}
+                        </div>
+                        <span className="line"></span>
+                        <div className="count">
+                            <ScrollTrigger onEnter={() => setCounterOn(true)} onExit={() => setCounterOn(false)}>
+                                <div className="num">
+                                    {counterOn &&
+                                        <CountUp start={0} end={statistics && statistics.partners} duration={2}
+                                                 delay={0}/>}
+                                    +
+                                </div>
+                            </ScrollTrigger>
+                            <div className="text">
+                                {t("partners")}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div className="home-body-wrapper">
-                <div className="top-products">
-                    <div data-aos="zoom-in-down" className="main-title">{t("topProducts")}</div>
-                    <div data-aos="zoom-in"
-                         data-aos-easing="ease-in-back"
-                         data-aos-offset="0" className="title">
-                        {t("topProductsDees")}
-                    </div>
-                    <div className="contents-products">
-                        <Slider {...settingsProductsSlider}>
-                            {topProducts ? topProducts.map((item, index) => {
-                                return <div data-aos="flip-left" key={index} className="slider-box">
-                                    <div className="img-box">
-                                        <img src={item.photo} alt=""/>
-                                    </div>
-                                    <div className="text-box">
-                                        <div
-                                            className="title-top">{item.translations && item.translations[i18next.language].name}</div>
-
-                                        <div className="des-top">
-                                        <div
+                </section>
+                <section className="home-body-wrapper">
+                    <div className="top-products">
+                        <h2 data-aos="zoom-in-down" className="main-title">{t("topProducts")}</h2>
+                        <h3 data-aos="zoom-in"
+                            data-aos-easing="ease-in-back"
+                            data-aos-offset="0" className="title">
+                            {t("topProductsDees")}
+                        </h3>
+                        <div className="contents-products">
+                            <Slider {...settingsProductsSlider}>
+                                {topProducts ? topProducts.map((item, index) => {
+                                    return <div data-aos="flip-left" key={index} className="slider-box">
+                                        <div className="img-box">
+                                            <img src={item.photo} alt="top-product" loading="lazy"/>
+                                        </div>
+                                        <div className="text-box">
+                                            <h4 className="title-top">{item.translations && item.translations[i18next.language].name}</h4>
+                                            <div className="des-top">
+                                                <div
                                                     dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(item.translations[i18next.language].description)}}/>
-                                        </div>
-
-                                        <div onClick={() => moreInfo(item)} className="more-btn">
-                                            {t("more")}
+                                            </div>
+                                            <div onClick={() => moreInfo(item)} className="more-btn">
+                                                {t("more")}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            }) : ""}
-                        </Slider>
+                                }) : ""}
+                            </Slider>
+                        </div>
                     </div>
-                </div>
-
-                <div data-aos="fade-up"
-                     data-aos-duration="2000" ref={ref} className="form-lead">
-                    <div className="left-side">
-                        <LeadForm/>
-                    </div>
-                    <div className="right-side">
-                        <div className="sloy">
-                            <div className="logo-box">
-                                <div className="logo">
-                                    <img src="./images/logo1.png" alt=""/>
+                    <div data-aos="fade-up"
+                         data-aos-duration="2000" ref={ref} className="form-lead">
+                        <div className="left-side">
+                            <LeadForm/>
+                        </div>
+                        <div className="right-side">
+                            <div className="sloy">
+                                <div className="logo-box">
+                                    <div className="logo">
+                                        <img src="./images/logo1.png" alt="logo-mill-mod" loading="lazy"/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <Footer/>
+                </section>
+            </main>
+            <footer>
+                <Footer/>
+            </footer>
         </div>
     );
 };
