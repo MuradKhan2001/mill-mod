@@ -223,7 +223,7 @@
 
   .logo-desctop{
     img{
-      width: 180px;
+      width: 130px;
     }
   }
 
@@ -235,7 +235,7 @@
     }
 
     .driver_btn {
-      background-color: rgba(244, 168, 80, 1);
+      background-color: #1DAE99;
       cursor: pointer;
       border: none;
       display: flex;
@@ -251,7 +251,7 @@
       transition: 0.3s linear;
 
       &:hover {
-        background-color: rgb(205, 140, 68);
+        background-color: #1a9e8a;
       }
 
       &:focus {
@@ -451,7 +451,6 @@
         .driver_btn {
           margin-left: 20px;
           margin-top: 20px;
-          background-color: rgba(244, 168, 80, 1);
           cursor: pointer;
           border: none;
           display: flex;
@@ -465,10 +464,6 @@
           line-height: 21.6px;
           font-family: "Krub", sans-serif;
           transition: 0.3s linear;
-
-          &:hover {
-            background-color: rgb(205, 140, 68);
-          }
 
           &:focus {
             outline: none;
@@ -504,7 +499,7 @@
         display: block;
 
         img {
-          width: 138px;
+          width: 110px;
         }
       }
       .nav-show{

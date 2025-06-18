@@ -182,16 +182,16 @@ const Home = () => {
                             return <div key={index} className="about-us">
                                 <h2 data-aos="zoom-in-down" className="main-title">{t("aboutUs")}</h2>
 
-                                <strong data-aos="zoom-in"
+                                <div data-aos="zoom-in"
                                         data-aos-easing="ease-in-back"
                                         data-aos-offset="0" className="title">
                                     {item.translations[i18next.language].title}
-                                </strong>
+                                </div>
 
-                                <strong data-aos="fade-up"
+                                <div data-aos="fade-up"
                                         data-aos-duration="2000" className="des">
                                     {item.translations[i18next.language].description}
-                                </strong>
+                                </div>
 
                                 <div data-aos="fade-up"
                                      data-aos-anchor-placement="top-center" className="slider-about-us">
@@ -377,11 +377,11 @@ const Home = () => {
                 <section className="home-body-wrapper">
                     <div className="top-products">
                         <h2 data-aos="zoom-in-down" className="main-title">{t("topProducts")}</h2>
-                        <h3 data-aos="zoom-in"
-                            data-aos-easing="ease-in-back"
-                            data-aos-offset="0" className="title">
-                            {t("topProductsDees")}
-                        </h3>
+                        {/*<h3 data-aos="zoom-in"*/}
+                        {/*    data-aos-easing="ease-in-back"*/}
+                        {/*    data-aos-offset="0" className="title">*/}
+                        {/*   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo, sapiente.*/}
+                        {/*</h3>*/}
                         <div className="contents-products">
                             <Slider {...settingsProductsSlider}>
                                 {topProducts ? topProducts.map((item, index) => {

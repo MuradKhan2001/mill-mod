@@ -73,7 +73,7 @@
 
         .top-text {
           font-size: 25px;
-          color: #FFB629;
+          color: #1DAE99;
           letter-spacing: 12px;
         }
 
@@ -90,7 +90,7 @@
           cursor: pointer;
           width: max-content;
           margin-top: 50px;
-          background-color: #FFB629;
+          background-color: #1DAE99;
           padding: 13px 30px;
           border-radius: 6px;
           color: #111D15;
@@ -98,7 +98,7 @@
           transition: 0.3s;
 
           &:hover {
-            background-color: #e6a426;
+            background-color: #1a9e8a;
           }
         }
       }
@@ -133,7 +133,7 @@
           content: "";
           width: 100%;
           height: 8px;
-          background: #FFB62980;
+          background: rgba(29, 174, 153, 0.68);
 
         }
       }
@@ -211,7 +211,7 @@
             .slick-active {
               button {
                 &:before {
-                  color: #F48C06;
+                  color: #1DAE99;
                   font-size: 18px;
                 }
               }
@@ -335,7 +335,7 @@
                     line-height: 20px;
                     border-top-left-radius: 20px;
                     border-bottom-right-radius: 20px;
-                    background: linear-gradient(270deg, #FFCF59 0%, #F48C06 100%),
+                    background: linear-gradient(270deg, #1dae99 0%, #1a9e8a 100%),
                     linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
                     opacity: 0.9;
                     cursor: pointer;
@@ -441,7 +441,7 @@
                       line-height: 20px;
                       border-top-left-radius: 20px;
                       border-bottom-right-radius: 20px;
-                      background: linear-gradient(270deg, #FFCF59 0%, #F48C06 100%),
+                      background: linear-gradient(270deg, #1dae99 0%, #1a9e8a 100%),
                       linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
                       opacity: 0.9;
                       cursor: pointer;
@@ -543,7 +543,7 @@
                       line-height: 20px;
                       border-top-left-radius: 20px;
                       border-bottom-right-radius: 20px;
-                      background: linear-gradient(270deg, #FFCF59 0%, #F48C06 100%),
+                      background: linear-gradient(270deg, #1dae99 0%, #1a9e8a 100%),
                       linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
                       opacity: 0.9;
                       cursor: pointer;
@@ -583,7 +583,7 @@
           content: "";
           width: 100%;
           height: 8px;
-          background: #FFB62980;
+          background: rgba(29, 174, 153, 0.68);
 
         }
       }
@@ -648,7 +648,7 @@
 
                     .text-box {
                       .more-btn {
-                        background-color: #FFB629;
+                        background-color: #1DAE99;
                         border: none;
                         border-radius: 15px;
                         color: #2C2B2A;
@@ -696,7 +696,7 @@
                       text-decoration: underline;
 
                       &:hover {
-                        background-color: #dda22f;
+                        background-color: #1DAE99;
                       }
                     }
                   }
@@ -781,7 +781,7 @@
       width: 160px;
       height: 160px;
       border-radius: 50%;
-      background-color: #FFB629;
+      background-color: #1DAE99;
     }
 
     .circle2 {
@@ -791,7 +791,7 @@
       width: 120px;
       height: 120px;
       border-radius: 50%;
-      background-color: #FFB629;
+      background-color: #1DAE99;
     }
 
     .count-box {
@@ -909,7 +909,6 @@
           .top-text {
             text-align: center;
             font-size: 18px;
-            color: #FFB629;
             letter-spacing: 12px;
           }
 
@@ -926,16 +925,11 @@
             margin: 20px auto 0 auto;
             cursor: pointer;
             width: max-content;
-            background-color: #FFB629;
             padding: 10px 25px;
             border-radius: 6px;
             color: #111D15;
             font-size: 14px;
             transition: 0.3s;
-
-            &:hover {
-              background-color: #c9932b;
-            }
           }
         }
       }
@@ -1013,7 +1007,6 @@
               .slick-active {
                 button {
                   &:before {
-                    color: #F48C06;
                     font-size: 14px;
                   }
                 }
@@ -1258,7 +1251,6 @@
 
                       .text-box {
                         .more-btn {
-                          background-color: #FFB629;
                           border: none;
                           border-radius: 15px;
                           color: #2C2B2A;
@@ -1293,15 +1285,10 @@
                         justify-content: center;
                         transition: 0.3s;
                         cursor: pointer;
-                        background-color: #FFB629;
                         border: none;
                         border-radius: 15px;
                         color: #2C2B2A;
                         text-decoration: none;
-
-                        &:hover {
-                          background-color: #dda22f;
-                        }
                       }
                     }
                   }
@@ -1339,7 +1326,6 @@
         width: 100px;
         height: 100px;
         border-radius: 50%;
-        background-color: #FFB629;
       }
 
       .circle2 {
@@ -1349,7 +1335,6 @@
         width: 100px;
         height: 100px;
         border-radius: 50%;
-        background-color: #FFB629;
       }
 
       .count-box {

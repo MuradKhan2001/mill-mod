@@ -102,9 +102,9 @@ const Footer = () => {
                     })
                 }
             </div>
-            <strong className="footer">
-                mill&mod 2024
-            </strong>
+            {/*<strong className="footer">*/}
+            {/*    EcoPrint*/}
+            {/*</strong>*/}
         </div>
     );
 };

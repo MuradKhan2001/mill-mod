@@ -27,8 +27,21 @@
   "success": "Confirmation",
   "region": "Countries",
   "des_region": "Please select a country!",
-  "des_footer": "Leverage agile frameworks to provide a robust synopsis for strategy collaborative",
+  "des_footer": "EcoPrint is an eco-friendly and modern production method for t-shirts, eco bags, caps, and hoodies. A blend of creativity and respect for nature.",
   "client": "Clients",
   "products": "Products",
-  "partners": "Partners"
+  "partners": "Partners",
+
+  "home-title": "Creative Design and High Quality",
+  "home-des": "High-quality T-shirts, hoodies and caps in national and modern styles!",
+  "products-title": "Products Production Process",
+  "products-des": "How are EcoPrint products created? Learn about the production process, quality control and creative design stages. Check out the pictures and videos!",
+  "contact-title": "Contact – EcoPrint",
+  "contact-des": "Contact EcoPrint: quick contact for questions, orders or cooperation. Phone number, email and address information are here!",
+  "modern-title": "Modern Direction – Creative Designs",
+  "modern-des": "EcoPrint modern direction: creative and trendy designs. Choose the latest products for T-shirts, hoodies and caps in the latest styles!",
+  "national-title": "National Direction – History and Culture Designs | Mill&Mod",
+  "national-des": "EcoPrint national direction: T-shirts, hoodies and caps inspired by history, culture and national patterns. A combination of nationality and modernity!",
+  "promo-title": "Promo Direction – Advertising and Brand Designs",
+  "promo-des": "EcoPrint promo direction: T-shirts, hoodies and accessories with advertising, corporate and brand designs. Promote your business with our products!"
 }

@@ -5,7 +5,7 @@ import NotFound from "../NotFound/NotFound";
 export const MyContext = createContext();
 
 function App() {
-    const [url, setUrl] = useState('https://api.mill-mod.com/api/v1/');
+    const [url, setUrl] = useState('https://api.ecoprinttex.uz/api/v1/');
     return (
         <>
             <MyContext.Provider value={{
